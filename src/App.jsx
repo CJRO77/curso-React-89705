@@ -1,34 +1,44 @@
-
 import './App.css'
+import Card from './components/Card'
+import Footer from './components/Footer'
+import Navbar from "./components/Navbar";
+import products from './data/products';
+import { useState } from 'react';
+
 
 function App() {
-  let titulo = "Bienvenido a mi aplicación React"
-  let getUserFavoriteColor = () => "blue"
 
-  let  buttonStyles = {
+   const [cartCount, setCartCount] = useState(0);
 
-    backgroundColor: getUserFavoriteColor(),
-    color: 'white',
-    padding: '10px 20px',
-  }
-
+  const handleAddToCart = (cantidad) => {
+    setCartCount(prev => prev + cantidad);
+  };
   return (
     <>
-      
-      <h1 style={{ color: "yellow" }}>{titulo}</h1>
+    <Navbar cartCount={cartCount} />
+      <section>
+        <h1>Tu tienda de gorras y accesorios de moda</h1>
+        <p>Encuentra las mejores gorras y accesorios para tu estilo</p>
 
+        
 
-      <div className="card">
-        <button style={ buttonStyles }>
-          Hola soy un botón
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+        <div className="item-list">
+        {products.map(product => (
+  <Card
+    key={product.id}
+    title={product.title}
+    price={product.price}
+    description={product.description}
+    image={product.image}
+    category={product.category}
+    stock={product.stock}
+    onAdd={handleAddToCart}
+  />
+))}
+        </div>
+      </section>
+
+      <Footer />
     </>
   )
 }
