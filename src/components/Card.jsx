@@ -5,14 +5,15 @@ import Counter from "./Counter";
 function Card({ title, price, image, stock, onAdd }) {
 
   const [cantidad, setCantidad] = useState(1);
-   const handleAdd = () => {
-    onAdd(cantidad);
-  };
+  
+ const handleAdd = () => {
+  onAdd(cantidad);
+};
 
   return (
     <div className="card-item">
 
-      <img src={image} className="card-img" />
+      <img src={image} className="card-image" alt={title} />
 
       <h2>{title}</h2>
 
@@ -21,7 +22,8 @@ function Card({ title, price, image, stock, onAdd }) {
       <Counter
 
         stock={stock}
-        onChange={setCantidad}
+        cantidad={cantidad}
+        setCantidad={setCantidad}
       />
 
      <button onClick={handleAdd}>
