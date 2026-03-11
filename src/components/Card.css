@@ -1,13 +1,14 @@
 .item-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, 400px);
+    grid-template-columns: repeat(4, 300px);
     gap: 50px;
     padding: 40px 20px;
-    justify-items: center;
+    justify-content: center;
+    max-width: 1400px;
+    margin: 0 auto;
 }
-
 .card-item {
-    width: 100%;
+    width: 300px;
     background-color: #ffffff; 
     border-radius: 16px;
     border: 1px solid #eee;
@@ -24,8 +25,11 @@
     overflow: hidden;
 }
 
-.card-item:hover .card-image {
+.card-item:hover {
     transform: scale(1.08);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);    
+    
+    
 }
 
 .card-image {

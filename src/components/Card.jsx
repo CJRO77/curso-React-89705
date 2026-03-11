@@ -2,18 +2,33 @@ import './Card.css'
 import { useState } from "react";
 import Counter from "./Counter";
 
-function Card({ title, price, image, stock, onAdd }) {
+function Card({ product, title, price, image, stock, onAdd, onOpen }) {
 
   const [cantidad, setCantidad] = useState(1);
   
- const handleAdd = () => {
-  onAdd(cantidad);
+  const handleAdd = (e) => {
+    e.stopPropagation(); 
+    console.log(`Comprar: ${title} x${cantidad}`);
+    if (onAdd) onAdd(product, cantidad);
+  };
+
+const handleImageClick = () => {
+  console.log("CLICK EN CARD");
+  console.log("onOpen:", onOpen);
+
+  if (onOpen) {
+    onOpen(product);
+  }
 };
 
-  return (
-    <div className="card-item">
 
-      <img src={image} className="card-image" alt={title} />
+  return (
+   <div className="card-item" style={{cursor:'pointer'}}>
+
+      <img  src={image} 
+        className="img-fluid modal-img" 
+        alt={title} 
+        onClick={handleImageClick} />
 
       <h2>{title}</h2>
 
@@ -26,9 +41,7 @@ function Card({ title, price, image, stock, onAdd }) {
         setCantidad={setCantidad}
       />
 
-     <button onClick={handleAdd}>
-  Comprar
-</button>
+     <button onClick={handleAdd}> Comprar </button>
 
     </div>
   );

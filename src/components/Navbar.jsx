@@ -1,8 +1,9 @@
 import { FaShoppingCart } from "react-icons/fa";
 
+
 export default function Navbar({ cartCount }) {
   return (
-  <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow">
+<nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
   <div className="container-fluid px-5">
 
        <a className="navbar-brand fw-bold fs-3" href="#">
