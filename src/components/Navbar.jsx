@@ -1,50 +1,81 @@
 import { FaShoppingCart } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { CartContext } from "./CartContext";
 
+export default function Navbar() {
 
-export default function Navbar({ cartCount }) {
+  const { cartCount } = useContext(CartContext);
+  const [open, setOpen] = useState(false);
+
   return (
-<nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-  <div className="container-fluid px-5">
+    
+    // contenedor de la barra de navegación con enlaces y el carrito de compras
 
-       <a className="navbar-brand fw-bold fs-3" href="#">
-       Hood & Diamond
-      </a>
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+      <div className="container-fluid px-5">
+
+        <span className="navbar-brand fw-bold fs-3">
+          <img src="/imgs/logo.png" className="logo-img" />
+          <span className="logo-text">Hood & Diamond</span>
+        </span>
 
         <button
           className="navbar-toggler"
           type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
+          onClick={() => setOpen(!open)}
         >
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        <div className="collapse navbar-collapse" id="navbarNav">
+      
+        <div className={`collapse navbar-collapse ${open ? "show" : ""}`}>
+
           <ul className="navbar-nav ms-auto align-items-center">
 
             <li className="nav-item">
-              <a className="nav-link" href="#">Inicio</a>
+              <Link className="nav-link" to="/" onClick={() => setOpen(false)}>
+                Inicio
+              </Link>
             </li>
 
             <li className="nav-item">
-              <a className="nav-link" href="#">Productos</a>
+              <Link className="nav-link" to="/productos/beisbol" onClick={() => setOpen(false)}>
+                Beisbol
+              </Link>
             </li>
 
             <li className="nav-item">
-              <a className="nav-link" href="#">Contacto</a>
+              <Link className="nav-link" to="/productos/automovilismo" onClick={() => setOpen(false)}>
+                Automovilismo
+              </Link>
             </li>
 
-         <li className="nav-item ms-3">
-  <div className="cart-container">
+            <li className="nav-item">
+              <Link className="nav-link" to="/productos/baloncesto" onClick={() => setOpen(false)}>
+                Baloncesto
+              </Link>
+            </li>
 
-    <FaShoppingCart size={26} />
+            <li className="nav-item">
+              <Link className="nav-link" to="/contacto" onClick={() => setOpen(false)}>
+                Contacto
+              </Link>
+            </li>
 
-    <span className="cart-badge">
-      {cartCount}
-    </span>
+            <li className="nav-item ms-3">
+              <Link to="/cart" className="cart-container" onClick={() => setOpen(false)} title="Carrito">
 
-  </div>
-</li>
+                <FaShoppingCart size={26} />
+
+                {cartCount > 0 && (
+                  <span className="cart-badge">
+                    {cartCount}
+                  </span>
+                )}
+
+              </Link>
+            </li>
 
           </ul>
         </div>

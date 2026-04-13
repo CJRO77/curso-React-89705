@@ -1,47 +1,59 @@
 import './Card.css'
-import { useState } from "react";
-import Counter from "./Counter";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { CartContext } from "./CartContext";
 
-function Card({ product, title, price, image, stock, onAdd, onOpen }) {
 
-  const [cantidad, setCantidad] = useState(1);
-  
-  const handleAdd = (e) => {
-    e.stopPropagation(); 
-    console.log(`Comprar: ${title} x${cantidad}`);
-    if (onAdd) onAdd(product, cantidad);
-  };
+function Card({ product, setProductos }) {
 
-const handleImageClick = () => {
-  console.log("CLICK EN CARD");
-  console.log("onOpen:", onOpen);
+  const navigate = useNavigate();
+  const { addToCart } = useContext(CartContext);
 
-  if (onOpen) {
-    onOpen(product);
-  }
+ const handleAdd = (e) => {
+  e.stopPropagation();
+
+  addToCart(product, 1);
+
+  setProductos(prev =>
+    prev.map(p =>
+      p.id === product.id
+        ? { ...p, stock: p.stock - 1 }
+        : p
+    )
+  );
 };
 
-
   return (
-   <div className="card-item" style={{cursor:'pointer'}}>
+    
+    //contenedor de cada producto en la lista de productos
 
-      <img  src={image} 
-        className="img-fluid modal-img" 
-        alt={title} 
-        onClick={handleImageClick} />
+    <div className="card-item">
 
-      <h2>{title}</h2>
-
-      <p>Precio: ${price}</p>
-
-      <Counter
-
-        stock={stock}
-        cantidad={cantidad}
-        setCantidad={setCantidad}
+      <img  
+        src={product.image}
+        className="card-image"
+        alt={product.title}
+        onClick={() => navigate(`/producto/${product.id}`)}
+        style={{ cursor: "pointer" }}
       />
 
-     <button onClick={handleAdd}> Comprar </button>
+      <h2 className="card-h2">{product.title}</h2>
+
+      <p className="card-price">
+        ${product.price?.toLocaleString()}
+      </p>
+
+      <p className="card-stock">
+        Stock disponible: {product.stock}
+      </p>
+
+      <button 
+        className="btn-ml"
+        onClick={handleAdd} 
+        disabled={product.stock === 0}
+      >
+        {product.stock === 0 ? "Sin stock" : "Comprar"}
+      </button>
 
     </div>
   );

@@ -1,67 +1,50 @@
 import './App.css'
-import Card from './components/Card'
 import Footer from './components/Footer'
 import Navbar from "./components/Navbar";
-import products from './data/products';
-import { useState } from 'react';
+import { CartContext } from './components/CartContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import ProductModal from './components/ProductModal';
+import './index.css';
+import { Routes, Route } from "react-router-dom";
+import ItemListContainer from './components/ItemListContainer';
+import ItemDetail from './components/ItemDetail';
+import Contacto from './components/Contacto';
+import Cart from './components/Cart';
+
 
 
 function App() {
 
-  const [cartCount, setCartCount] = useState(0);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [productos, setProductos] = useState(products);
-
-  const handleAddToCart = (product, cantidad) => {
-
-    setCartCount(prev => prev + cantidad);
-
-    setProductos(productos.map(p =>
-      p.id === product.id
-        ? { ...p, stock: p.stock - cantidad }
-        : p
-    ));
-
-  };
-
   return (
+
+    // contenedor principal con rutas para cada sección y componentes como Navbar y Footer
     <>
-      <Navbar cartCount={cartCount} />
+    
+      <Navbar />
 
-      <section>
-        <h1>Tu tienda de gorras y accesorios de moda</h1>
-        <p>Encuentra las mejores gorras y accesorios para tu estilo</p>
+      <Routes>
 
-        <div className="item-list">
-          {productos.map(product => (
-            <Card
-              key={product.id}
-              product={product}
-              title={product.title}
-              price={product.price}
-              image={product.image}
-              stock={product.stock}
-              onAdd={handleAddToCart}
-              onOpen={() => setSelectedProduct(product)}
-            />
-          ))}
-        </div>
-      </section>
+       <Route path="/" element={
+  <ItemListContainer />
+} />
 
-      {selectedProduct && (
-        <ProductModal
-          product={selectedProduct}
-          onClose={() => setSelectedProduct(null)}
-          onAdd={handleAddToCart}
-        />
-      )}
+<Route path="/productos/:categoria" element={
+  <ItemListContainer />
+} />
+
+        <Route path="/producto/:id" element={
+          <ItemDetail />
+        } />
+
+        <Route path="/contacto" element={<Contacto />} />
+
+        <Route path="/cart" element={<Cart />} />
+
+      </Routes>
 
       <Footer />
     </>
   );
 }
+
 
 export default App;
